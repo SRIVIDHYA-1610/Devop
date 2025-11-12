@@ -3,21 +3,26 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
+
+  <!-- 📦 Project Details -->
   <groupId>com.example</groupId>
   <artifactId>calculator</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
   <name>Calculator Project</name>
-  <description>Simple Calculator Project for SonarQube Analysis</description>
+  <description>Simple Calculator Project for Jenkins CI/CD and SonarQube Analysis</description>
 
-  <!-- ✅ Step 1: Add build info -->
+  <!-- ⚙️ Compiler Properties -->
   <properties>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <!-- ✅ Step 2: Add dependencies (JUnit 5 for testing) -->
+  <!-- 📚 Dependencies -->
   <dependencies>
+
+    <!-- ✅ JUnit 5 for Testing -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
@@ -31,24 +36,57 @@
       <version>5.10.0</version>
       <scope>test</scope>
     </dependency>
+
+    <!-- ✅ Servlet API (needed for WAR packaging) -->
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <version>5.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+
   </dependencies>
 
-  <!-- ✅ Step 3: Add build plugin for tests -->
+  <!-- 🔧 Build Configuration -->
   <build>
-  <plugins>
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-surefire-plugin</artifactId>
-      <version>3.1.2</version>
-      <configuration>
-        <useModulePath>false</useModulePath>
-      </configuration>
-    </plugin>
-  </plugins>
-</build>
+    <finalName>calculator</finalName>
+    <plugins>
 
+      <!-- ✅ Compiler Plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.10.1</version>
+        <configuration>
+          <source>17</source>
+          <target>17</target>
+        </configuration>
+      </plugin>
 
-  <!-- ✅ Step 4: SonarQube properties -->
+      <!-- ✅ Surefire Plugin (for running tests) -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.1.2</version>
+        <configuration>
+          <useModulePath>false</useModulePath>
+        </configuration>
+      </plugin>
+
+      <!-- ✅ WAR Plugin (to build .war file) -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.3.2</version>
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
+  <!-- 🧩 SonarQube Configuration -->
   <profiles>
     <profile>
       <id>sonar</id>
@@ -56,7 +94,7 @@
         <sonar.projectKey>calculator</sonar.projectKey>
         <sonar.projectName>Calculator</sonar.projectName>
         <sonar.host.url>http://localhost:9000</sonar.host.url>
-        <!-- Replace TOKEN below with your actual SonarQube token -->
+        <!-- ⚠ Replace with your actual SonarQube token -->
         <sonar.login>sqp_ca6ada6d89d1649cc299b01dea96c8292482ab8e</sonar.login>
       </properties>
     </profile>
